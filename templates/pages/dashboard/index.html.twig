@@ -1,0 +1,174 @@
+{% extends 'layout/template.html.twig' %}
+
+{% block title %}
+<title>Owner - Dashboard</title>
+{% endblock %}
+
+{% block body %}
+<main id="main" class="site-main">
+    <div class="site-content owner-content">
+        {{ include('nav/owner.top.html.twig') }}
+        <div class="container">
+            <div class="member-wrap">
+                {{ include('nav/owner.subtitle.html.twig') }}
+                <div class="upgrade-box">
+                    <h1>Choose a plan to submit your place!</h1>
+                    <p>Pay as you go service, cancel anytime.</p>
+                    <a href="{{ path('pricing') }}" class="btn" title="Upgrade now">Upgrade now</a>
+                    <img src="{{ asset('assets/images/assets/img-people.svg') }}" alt="Upgrade now">
+                    <a href="#" class="close" data-close="upgrade-box"><i class="las la-times"></i></a>
+                </div><!-- .upgrade-box -->
+                <div class="member-statistical">
+                    <div class="row">
+                        {% if app.session.get('user').getType != 'client' %}
+                        <div class="col-lg-3 col-6 mt-3">
+                            <div class="item blue">
+                                <h3>Active Places</h3>
+                                <span class="number">{{ listing_number }}</span>
+                                <span class="line"></span>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="col-lg-3 col-6 mt-3">
+                            <div class="item green">
+                                <h3>Bookings Made</h3>
+                                <span class="number">{{ booking_number }}</span>
+                                <span class="line"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6 mt-3">
+                            <div class="item yellow">
+                                <h3>Total Reviews</h3>
+                                <span class="number">{{ review_number }}</span>
+                                <span class="line"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6 mt-3">
+                            <div class="item purple">
+                                <h3>Total Views</h3>
+                                <span class="number">{{ listing_number + booking_number + review_number }}</span>
+                                <span class="line"></span>
+                            </div>
+                        </div>
+                        {% if app.session.get('user').getType != 'client' %}
+                        <div class="col-lg-3 col-6 mt-3">
+                            <div class="item blue">
+                                <h3>Visiting Number of Listing</h3>
+                                <span class="number">{{ visit_number }}</span>
+                                <span class="line"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6 mt-3">
+                            <div class="item green">
+                                <h3>Booking Number Per Visit</h3>
+                                <span class="number">{{ booking_per_visit }}</span>
+                                <span class="line"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6 mt-3">
+                            <div class="item yellow">
+                                <h3>Review per Booking</h3>
+                                <span class="number">{{ review_per_booking }}</span>
+                                <span class="line"></span>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="col-lg-3 col-6 mt-3">
+                            <div class="item purple">
+                                <h3>Satisfaction Percentage</h3>
+                                <span class="number">{{ percentage }}</span>
+                                <span class="line"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- .member-statistical -->
+                <div class="owner-box">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="ob-item">
+                                <div class="ob-head">
+                                    <h3>Recent Bookings</h3>
+                                    <a href="#" class="view-all" title="View All">View all</a>
+                                </div>
+                                <div class="ob-content">
+                                    <ul>
+                                        {% for booking in new_bookings %}
+                                        <li class="{{ booking.getStatus }}">
+                                            <p class="date"><b>Date:</b>{{ booking.getDate.format('M d Y') }}</p>
+                                            <p class="place"><b>Place:</b>{{ booking.city }}</p>
+                                            <p class="status"><b>Status:</b><span>{{ booking.getStatus }}</span></p>
+                                            <a href="{{ path('booking') }}" title="More" class="more"><i class="las la-angle-right"></i></a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="ob-item">
+                                <div class="ob-head">
+                                    <h3>New Reviews</h3>
+                                    <a href="#" class="view-all" title="View All">View all</a>
+                                </div>
+                                <div class="ob-content">
+                                    <ul class="place__comments">
+                                        {% for review in new_reviews %}
+                                        <li>
+                                            <div class="place__author">
+                                                <div class="place__author__avatar">
+                                                    <a title="{{ review.getUserName }}" href="#"><img src="{{ asset(review.getUserAvatar) }}" alt=""></a>
+                                                </div>
+                                                <div class="place__author__info">
+                                                        <a title="{{ review.getUserName }}" href="#">{{ review.getUserName }}</a>
+                                                        <div class="place__author__star">
+                                                            <i class="la la-star"></i>
+                                                            <i class="la la-star"></i>
+                                                            <i class="la la-star"></i>
+                                                            <i class="la la-star"></i>
+                                                            <i class="la la-star"></i>
+                                                            <span style="width: {{ 100 * review.getRate / 5 }}%;">
+                                                                <i class="la la-star"></i>
+                                                                <i class="la la-star"></i>
+                                                                <i class="la la-star"></i>
+                                                                <i class="la la-star"></i>
+                                                                <i class="la la-star"></i>
+                                                            </span>
+                                                        </div>
+                                                    <span class="time">{{ review.getDate.format('M d Y') }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="place__comments__content">
+                                                <p>{{ review.getDescription }}</p>
+                                            </div>
+                                            <p class="place"><b>Place:</b>{{ review.city }}</p>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="ob-item">
+                                <div class="ob-head">
+                                    <h3>Notifications <span>({{ messages|length }})</span></h3>
+                                    <a href="#" class="clear-all" title="Clear All">Clear all</a>
+                                </div>
+                                <div class="ob-content">
+                                    <ul>
+                                        {% for message in messages %}
+                                        <li class="noti-item unread">
+                                            <p>{{ message.getDescription }}<br> Listing ID: #{{ message.getId }}</p>
+                                            <span>{{ message.time_message }}</span><a href="#" class="delete-noti" title="Delete">Delete</a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- .owner-box -->
+            </div><!-- .member-wrap -->
+        </div>
+    </div><!-- .site-content -->
+</main><!-- .site-main -->
+{% endblock %}

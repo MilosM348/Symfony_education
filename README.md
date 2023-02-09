@@ -1,1 +1,1 @@
-# Symfony_education
+# edu_symfony

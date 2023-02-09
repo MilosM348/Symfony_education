@@ -1,0 +1,45 @@
+<div class="member-menu">
+    <div class="container">
+        <ul>
+            {% if page == 'dashboard' %}
+            <li class="active"><a href="{{ path('dashboard') }}">Dashboard</a></li>
+            {% else %}
+            <li><a href="{{ path('dashboard') }}">Dashboard</a></li>
+            {% endif %}
+            {% if app.session.get('user').getType != 'client' %}
+                {% if page == 'booking' %}
+                <li class="active"><a href="{{ path('booking') }}">Bookings</a></li>
+                {% else %}
+                <li><a href="{{ path('booking') }}">Bookings</a></li>
+                {% endif %}
+                {% if page == 'listing' %}
+                <li class="active"><a href="{{ path('listing') }}">Listings</a></li>
+                {% else %}
+                <li><a href="{{ path('listing') }}">Listings</a></li>
+                {% endif %}
+            {% endif %}
+            {% if page == 'wishlist' %}
+            <li class="active"><a href="{{ path('wishlist') }}">Wishlist</a></li>
+            {% else %}
+            <li><a href="{{ path('wishlist') }}">Wishlist</a></li>
+            {% endif %}
+            {% if page == 'profile' %}
+            <li class="active"><a href="{{ path('profile') }}">Profile</a></li>
+            {% else %}
+            <li><a href="{{ path('profile') }}">Profile</a></li>
+            {% endif %}
+            {% if app.session.get('user').getType != 'client' %}
+                {% if page == 'review' %}
+                <li class="active"><a href="{{ path('review') }}">Review</a></li>
+                {% else %}
+                <li><a href="{{ path('review') }}">Review</a></li>
+                {% endif %}
+                {% if page == 'request' %}
+                <li class="active"><a href="{{ path('request') }}">Inqueries</a></li>
+                {% else %}
+                <li><a href="{{ path('request') }}">Inqueries</a></li>
+                {% endif %}
+            {% endif %}
+        </ul>
+    </div>
+</div>

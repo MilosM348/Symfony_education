@@ -1,0 +1,150 @@
+{% extends 'layout/admin/app.html.twig' %}
+
+{% block title %}
+<title>Admin Listing</title>
+{% endblock %}
+
+{% block body %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Listings</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
+            <li class="breadcrumb-item active">Listing</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Listings</h3>
+              <a href="{{ path('listing_create') }}" class="btn btn-primary" style="float:right">New Listing</a>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <form action="{{ path('admin_listing_search') }}" method="POST">
+                <div class="row">
+                  <div class="form-group col-md-3">
+                    <select class="custom-select rounded-0" name="city_id">
+                      <option value="0">All cities</option>
+                      {% for city in cities %}
+                        {% if (filter is defined) and ('city_id' in filter|keys) and (filter.city_id == city.getId) %}
+                        <option value="{{ city.getId }}" selected>{{ city.getName }}</option>
+                        {% else %}
+                        <option value="{{ city.getId }}">{{ city.getName }}</option>
+                        {% endif %}
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <select class="custom-select rounded-0" name="category_id">
+                      <option value="0">All categories</option>
+                      {% for category in categories %}
+                        {% if (filter is defined) and ('category_id' in filter|keys) and (filter.category_id == category.getId) %}
+                        <option value="{{ category.getId }}" selected>{{ category.getName }}</option>
+                        {% else %}
+                        <option value="{{ category.getId }}">{{ category.getName }}</option>
+                        {% endif %}
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                    {% if (filter is defined) and ('id' in filter|keys) %}
+                    <input type="text" id="id" class="form-control" placeholder="Search id" name="id" value="{{ filter.id }}">
+                    {% else %}
+                    <input type="text" id="id" class="form-control" placeholder="Search id" name="id">
+                    {% endif %}
+                  </div>
+                  <div class="form-group col-md-3">
+                    {% if (filter is defined) and ('name' in filter|keys) %}
+                    <input type="text" id="name" class="form-control" placeholder="Search name" name="name" value="{{ filter.name }}">
+                    {% else %}
+                    <input type="text" id="name" class="form-control" placeholder="Search name" name="name">
+                    {% endif %}
+                  </div>
+                </div>
+                <div style="height: 40px;">
+                  <button class="btn btn-primary" style="float:right">
+                    Search
+                  </button>
+                </div>
+              </form>
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Thumb</th>
+                  <th>Name</th>
+                  <th>City</th>
+                  <th>Category</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for listing in listings %}
+                <tr>
+                  <td data-title="ID">{{ listing.getId }}</td>
+                  <td data-title="Thumb"><img src="{{ asset(listing.getCoverImage) }}" alt="Place Thumb" style="height: 50px;"></td>
+                  <td data-title="Place name"><b>{{ listing.getName }}</b></td>
+                  <td data-title="City">{{ listing.city.getName }}</td>
+                  <td data-title="Category">{{ listing.category.getName }}</td>
+                  <td data-title="Status" class="{{ listing.status }}">{{ listing.getStatus }}</td>
+                  <td data-title="" class="place-action">
+                    <a href="{{ path('listing_edit', {'id': listing.getId}) }}" class="edit mr-3" title="Edit"><i class="las la-edit"></i></a>
+                    <a href="{{ path('admin_listing_edit', {'id': listing.getId}) }}" class="edit mr-3" title="Edit"><i class="las la-eye"></i></a>
+                    <a href="{{ path('admin_listing_delete', {'id': listing.getId}) }}" class="" title=""><i class="la la-trash-alt" style="color: red;"></i></a>
+                  </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<!-- Page specific script -->
+<script>
+  $(function () {
+    // $("#example1").DataTable({
+    //   "responsive": true, "lengthChange": false, "autoWidth": false,
+    //   "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    // }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,156 @@
+{% extends 'layout/template.html.twig' %}
+
+{% block title %}
+<title>Owner - Bookings</title>
+{% endblock %}
+{% block stylesheets %}
+<!-- Daterange picker -->
+<link rel="stylesheet" href="{{ asset('assets2/plugins/daterangepicker/daterangepicker.css') }}">
+{% endblock %}
+
+{% block body %}
+<main id="main" class="site-main">
+    <div class="site-content owner-content">
+        {{ include('nav/owner.top.html.twig') }}
+        <div class="container">
+            <div class="member-place-wrap">
+                {{ include('nav/owner.subtitle.html.twig') }}
+                <div class="member-filter">
+                    <form action="{{ path('booking_search') }}" method="POST" style="width: 100%;">
+                        <div class="row">
+                            <div class="field-select col-md-3" style="width: 90% im !important;">
+                                <select name="status">
+                                    <option value="0">All status</option>
+                                    {% for status in statues %}
+                                        {% if (filter is defined) and ('status' in filter|keys) and (filter.status == status) %}
+                                        <option value="{{ status }}" selected>{{ status }}</option>
+                                        {% else %}
+                                        <option value="{{ status }}">{{ status }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <i class="la la-angle-down"></i>
+                            </div>
+                            <div class="field-select col-md-3" style="width: 90% im !important;">
+                                <select name="listing_id">
+                                    <option value="0">All Listings</option>
+                                    {% for listing in listings %}
+                                        {% if (filter is defined) and ('listing' in filter|keys) and (filter.listing == listing.getName) %}
+                                        <option value="{{ listing.getName }}" selected>{{ listing.getName }}</option>
+                                        {% else %}
+                                        <option value="{{ listing.getName }}">{{ listing.getName }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <i class="la la-angle-down"></i>
+                            </div>
+                        </div>
+                        <button type="submit" class="search-button">
+                            Search
+                        </button>
+                    </form>
+                </div><!-- .member-filter -->
+                <form action="{{ path('booking_blockset') }}" method="POST">
+                    <div class="field-accordion">
+                        <div class="accordion-item">
+                            <div class="accordion-top field-check" style="padding: 20px 0px;">
+                                <label for="booking_block" id="booking_block_label" style="position: relative;">
+                                    <input type="checkbox" name="booking_block" id="booking_block" value=true>
+                                    <div id="booking_block_text" style="position: absolute; top: 0; left: 40px;">mark as full</div>
+                                    <span class="checkmark">																
+                                        <i class="la la-check"></i>
+                                    </span>
+                                    
+                                </label>
+                                <span>Never</span>
+                            </div>
+                            <div class="accordion-bot">
+                                <div class="form-group">
+                                    <div class="input-group" style="width: 300px;">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text">
+                                            <i class="far fa-calendar-alt"></i>
+                                          </span>
+                                        </div>
+                                        <input type="text" class="form-control float-right" id="reservation" name="date_range">
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="set-button">Set</button>
+                        </div>
+                    </div>
+                </form>
+                <table class="member-place-list owner-booking table-responsive">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Listings</th>
+                            <th>Booking at</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in bookings %}
+                        <tr>
+                            <td data-title="ID">{{ booking.getId }}</td>
+                            <td data-title="Places"><b>{{ booking.list_name }}</b></td>
+                            <td data-title="Booking at">{{ booking.getDate.format('M d Y') }}</td>
+                            <td data-title="Status" class="{{ booking.getStatus }}">{{ booking.getStatus }}</td>
+                            <td data-title="" class="place-action">
+                                {% if booking.getStatus == 'pending' %}
+                                <a href="{{ path('booking_status', {'id': booking.getId, 'status': 'approved'}) }}" class="approve" title="Approve">Approve</a>
+                                <a href="{{ path('booking_status', {'id': booking.getId, 'status': 'cancel'}) }}" class="cancel" title="Cancel">Cancel</a>
+                                {% endif %}
+                                {% if booking.getStatus == 'approved' %}
+                                <a href="{{ path('booking_status', {'id': booking.getId, 'status': 'cancel'}) }}" class="cancel" title="Cancel">Cancel</a>
+                                {% endif %}
+                                {% if booking.getStatus == 'cancel' %}
+                                <a href="{{ path('booking_status', {'id': booking.getId, 'status': 'approved'}) }}" class="approve" title="Approve">Approve</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="pagination align-left">
+                    <div class="pagination__numbers">
+                        <span>1</span>
+                        <a title="2" href="#">2</a>
+                        <a title="3" href="#">3</a>
+                        <a title="Next" href="#">
+                            <i class="la la-angle-right"></i>
+                        </a>
+                    </div>
+                </div><!-- .pagination -->
+            </div><!-- .member-place-wrap -->
+        </div>
+    </div><!-- .site-content -->
+</main><!-- .site-main -->
+{% endblock %}
+{% block javascripts %}
+<!-- InputMask -->
+<script src="{{ asset('assets2/plugins/moment/moment.min.js') }}"></script>
+<script src="{{ asset('assets2/plugins/inputmask/jquery.inputmask.min.js') }}"></script>
+<!-- daterangepicker -->
+<script src="{{ asset('assets2/plugins/daterangepicker/daterangepicker.js') }}"></script>
+<script>
+//Date range picker
+$('#reservationdate').datetimepicker({
+    format: 'L'
+});
+//Date range picker
+$('#reservation').daterangepicker()
+$(document).ready(function(){
+    $("#booking_block_label").on("click", function(){
+        if ($(this).find('input').is(':checked')) {
+            $('#booking_block_text').text("unmark as full");
+        }
+        else 
+        {
+            $('#booking_block_text').text("mark as full");
+        }
+    });
+});
+</script>
+{% endblock %}

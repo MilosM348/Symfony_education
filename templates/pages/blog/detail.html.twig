@@ -1,0 +1,166 @@
+{% extends 'layout/template.html.twig' %}
+
+{% block title %}
+<title>Blog Detail</title>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .attached-comment {
+        background-color: #23d3d3;
+        border-radius: 50%;
+        color: white;
+        padding: 3px;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<main id="main" class="site-main">
+    <div class="blog-banner">
+        <img src="{{ asset('assets/images/blog/large-01.jpg') }}" alt="Blog Banner">
+    </div><!-- .blog-banner -->
+    <div class="blog-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="blog-left">
+                        <ul class="breadcrumbs">
+                            <li><a title="Blog" href="#">Blog</a></li>
+                            <li><a title="{{blog.type.getName}}" href="#">{{blog.type.getName}}</a></li>
+                        </ul><!-- .breadcrumbs -->
+                        <div class="entry-content">
+                            <h1>{{ blog.getTitle }}</h1>
+                            <ul class="entry-meta">
+                                <li>
+                                    by <a title="{{ blog.user.getNom }}" href="#">{{ blog.user.getNom }}</a>
+                                </li>
+                                <li>{{ blog.getDate.format('M d, Y') }}</li>
+                                <li>{{comment_count}} comments</li>
+                            </ul>
+                            <div class="entry-desc"><img src="{{ asset(blog.getImage) }}" alt="Blog detail 03">
+                                <p>{{ blog.getDiscription }}</p>
+                            </div><!-- .entry-desc -->
+                        </div><!-- .entry-content -->
+                        <div class="related-post">
+                            <h2>Related Articles</h2>
+                            <div class="related-grid columns-3">
+                                {% for blog in relate_blogs %}
+                                <article class="hover__box post">
+                                    <div class="post__thumb hover__box__thumb">
+                                        <a title="{{ blog.getTitle }}" href="{{ path('blog_detail', {'id': blog.getId}) }}"><img src="{{ asset(blog.getImage) }}" alt="{{ blog.getTitle }}"></a>
+                                    </div>
+                                    <div class="post__info">
+                                        <ul class="post__category">
+                                            <li><a title="{{ blog.type.getName }}" href="#">{{ blog.type.getName }}</a></li>
+                                        </ul>
+                                        <h3 class="post__title"><a title="{{ blog.getTitle }}" href="#">{{ blog.getTitle }}</a></h3>
+                                    </div>
+                                </article>
+                                {% endfor %}
+                            </div>
+                        </div><!-- .related-post -->
+                        <div class="place__box place__box--reviews entry-comment">
+                            <h3 class="place__title--reviews">{{comment_count}} Comments</h3>
+                            <ul class="place__comments">
+                                {% for comment in comments %}
+                                <li>
+                                    <div class="place__author">
+                                        <div class="place__author__avatar">
+                                            {% if comment.attached is defined %}
+                                                {% if comment.attached %}
+                                                <a title="like" href="{{ path('blog_comment_like_detach', {'id': comment.getId}) }}" class="add-wishlist">							
+                                                    <i class="la la-bookmark large attached-comment"></i>
+                                                </a>
+                                                {% else %}
+                                                <a title="like" href="{{ path('blog_comment_like_attach', {'id': comment.getId}) }}" class="add-wishlist">							
+                                                    <i class="la la-bookmark large"></i>
+                                                </a>
+                                                {% endif %}
+                                            {% endif %}
+                                            <a title="{{ comment.user.getPrenom }}" href="#"><img src="{{ asset(comment.user.getImage) }}" alt=""></a>
+                                        </div>
+                                        <div class="place__author__info">
+                                            <h4>
+                                                <a title="{{ comment.user.getPrenom }}" href="#">{{ comment.user.getPrenom }}</a>
+                                            </h4>
+                                            <span class="time">{{ comment.getDate.format('M d, Y') }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="place__comments__content">
+                                        <p>{{ comment.getDescription }}</p>
+                                    </div>
+                                    <a title="Reply" href="#demo{{comment.getId}}" class="place__comments__reply" data-toggle="collapse">							
+                                        <i class="la la-comment-dots"></i>
+                                        Reply
+                                    </a>
+                                    <div id="demo{{comment.getId}}" class="collapse review-form mt-2">
+                                        <form action="{{ path('blog_comment_reply') }}" method="POST">
+                                            <input type="hidden" name="blog_id" value="{{ blog.getId }}">
+                                            <input type="hidden" name="reply_id" value="{{ comment.getId }}">
+                                            <div class="field-textarea">
+                                                <textarea name="description" placeholder="Write a reply"></textarea>
+                                            </div>
+                                            <div class="field-submit">
+                                                <input type="submit" class="btn" value="Submit" name="submit">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <ul>
+                                        {% for reply in comment.reply %}
+                                        <li>
+                                            <div class="place__author">
+                                                <div class="place__author__avatar">
+                                                    {% if reply.attached is defined %}
+                                                        {% if reply.attached %}
+                                                        <a title="like" href="{{ path('blog_comment_like_detach', {'id': reply.getId}) }}" class="add-wishlist">							
+                                                            <i class="la la-bookmark large attached-comment"></i>
+                                                        </a>
+                                                        {% else %}
+                                                        <a title="like" href="{{ path('blog_comment_like_attach', {'id': reply.getId}) }}" class="add-wishlist">							
+                                                            <i class="la la-bookmark large"></i>
+                                                        </a>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                    <a title="{{ reply.user.getPrenom }}" href="#"><img src="{{ asset( reply.user.getImage ) }}" alt=""></a>
+                                                </div>
+                                                <div class="place__author__info">
+                                                    <h4>
+                                                        <a title="{{ reply.user.getPrenom }}" href="#">{{ reply.user.getPrenom }}</a>
+                                                    </h4>
+                                                    <span class="time">{{ reply.getDate.format('M d, Y') }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="place__comments__content">
+                                                <p>{{ reply.getDescription }}</p>
+                                            </div>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% if app.session.get('user') == null %}
+                            <p class="place__login"><a title="Login" href="#">Login </a>to reviews</p>
+                            {% endif %}
+                            <div class="review-form">
+                                <h3>Write a comment</h3>
+                                <form action="{{ path('blog_comment_store') }}" method="POST">
+                                    <input type="hidden" name="blog_id" value="{{ blog.getId }}">
+                                    <div class="field-textarea">
+                                        <textarea name="description" placeholder="Write a review"></textarea>
+                                    </div>
+                                    <div class="field-submit">
+                                        <input type="submit" class="btn" value="Submit" name="submit">
+                                    </div>
+                                </form>
+                            </div>
+                        </div><!-- .place__box -->
+                    </div><!-- .place__left -->
+                </div>
+                
+            </div>
+        </div>
+    </div><!-- .blog-content -->
+</main><!-- .site-main -->
+{% endblock %}

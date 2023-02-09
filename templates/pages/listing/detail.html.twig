@@ -1,0 +1,867 @@
+{% extends 'layout/template.html.twig' %}
+
+{% block title %}
+<title>Owner - Listings</title>
+{% endblock %}
+
+{% block body %}
+<main id="main" class="site-main single single-02">
+    <div class="place">
+        <div class="slick-sliders">
+            <div class="slick-slider" data-item="1" data-arrows="true" data-itemscroll="1" data-dots="true" data-infinite="true" data-centermode="true" data-centerpadding="418px" data-tabletitem="1" data-tabletscroll="1" data-tabletpadding="70px" data-mobileitem="1" data-mobilescroll="1" data-mobilepadding="30px">
+            <div class="place-slider__item bd"><a title="Place Slider Image" href="#"><img src="{{ asset('assets/images/listing/gallery-01.jpg') }}" alt="slider-01"></a></div>
+            <div class="place-slider__item bd"><a title="Place Slider Image" href="#"><img src="{{ asset('assets/images/listing/gallery-02.jpg') }}" alt="slider-02"></a></div>
+            <div class="place-slider__item bd"><a title="Place Slider Image" href="#"><img src="{{ asset('assets/images/listing/gallery-03.jpg') }}" alt="slider-03"></a></div>
+            <div class="place-slider__item bd"><a title="Place Slider Image" href="#"><img src="{{ asset('assets/images/listing/gallery-05.jpg') }}" alt="slider-05"></a></div>
+            <div class="place-slider__item bd"><a title="Place Slider Image" href="#"><img src="{{ asset('assets/images/listing/gallery-06.jpg') }}" alt="slider-06"></a></div>
+        </div><!-- .page-title -->
+        <div class="place-share">
+                {% if attached %}
+                <a style="background-color: #23d3d3;" title="Save" href="{{ path('wishlist_attach', {'id': listing.getId}) }}" class="add-wishlist">							
+                    <i class="la la-bookmark large"></i>
+                </a>
+                {% else %}
+                <a title="Save" href="{{ path('wishlist_attach', {'id': listing.getId}) }}" class="add-wishlist">							
+                    <i class="la la-bookmark large"></i>
+                </a>
+                {% endif %}
+                <a title="Share" href="#" class="share">									
+                    <i class="la la-share-square la-24"></i>
+                </a>
+                <div class="social-share"><div class="list-social-icon"> 
+                    <a class="facebook" onclick="window.open('https://www.facebook.com/sharer.php?u=https%3A%2F%2Fwp.getgolo.com%2Fplace%2Fthe-louvre%2F','sharer', 'toolbar=0,status=0');" href="javascript:void(0)"> <i class="fab fa-facebook-f"></i> </a> 
+                    <a class="twitter" onclick="popUp=window.open('https://twitter.com/share?url=https%3A%2F%2Fwp.getgolo.com%2Fplace%2Fthe-louvre%2F','sharer','scrollbars=yes');popUp.focus();return false;" href="javascript:void(0)"> <i class="fab fa-twitter"></i> </a>  
+                    <a class="linkedin" onclick="popUp=window.open('http://linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwp.getgolo.com%2Fplace%2Fthe-louvre%2F&amp;title=The+Louvre','sharer','scrollbars=yes');popUp.focus();return false;" href="javascript:void(0)"> <i class="fab fa-linkedin-in"></i> </a> 
+                    <a class="pinterest" onclick="popUp=window.open('http://pinterest.com/pin/create/button/?url=https%3A%2F%2Fwp.getgolo.com%2Fplace%2Fthe-louvre%2F&amp;description=The+Louvre&amp;media=https://wp.getgolo.com/wp-content/uploads/2019/10/ef3cc68f-2e02-41cc-aad6-4b301a655555.jpg','sharer','scrollbars=yes,width=800,height=400');popUp.focus();return false;" href="javascript:void(0)"> <i class="fab fa-pinterest-p"></i> </a></div></div>
+            </div><!-- .place-share -->
+            <div class="place-slider__nav slick-nav">
+            <div class="place-slider__prev slick-nav__prev">
+                <i class="las la-angle-left"></i>
+            </div><!-- .place-slider__prev -->
+            <div class="place-slider__next slick-nav__next">		
+                <i class="las la-angle-right"></i>
+            </div><!-- .place-slider__next -->
+        </div><!-- .place-slider__nav -->
+        </div><!-- .place-slider -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="place__left">
+                        <ul class="place__breadcrumbs breadcrumbs">
+                            <li><a title="France" href="#">France</a></li>
+                            <li><a title="Paris" href="#">Paris</a></li>
+                            <li><a title="Eat & Drink" href="#">Eat & Drink</a></li>
+                        </ul><!-- .place__breadcrumbs -->
+                        <div class="place__box place__box--npd">
+                            <h1>{{ listing.getName }}</h1>
+                            <div class="place__meta">
+                                <div class="place__reviews reviews">
+                                    <span class="place__reviews__number reviews__number">
+                                        {{ review_rate }}									
+                                        <i class="la la-star"></i>
+                                    </span>
+                                    <span class="place__places-item__count reviews_count">({{ reviews|length }} reviews)</span>
+                                </div>
+                                <div class="place__currency">{{ listing.getPriceRange }}</div>
+                                <div class="place__category">
+                                    <a title="{{ listing.category.getName }}" href="#">{{ listing.category.getName }}</a>
+                                </div>
+                            </div><!-- .place__meta -->
+                        </div><!-- .place__box -->
+                        <div class="place__box place__box-hightlight">
+                            <div class="hightlight-grid">
+                                <div class="place__amenities">									
+                                    <img src="{{ asset('assets/images/icons/amenities/wf.svg') }}" alt="Free wifi">
+                                    <span>Wifi</span>
+                                </div>
+                                <div class="place__amenities">									
+                                    <img src="{{ asset('assets/images/icons/amenities/cld.svg') }}" alt="Reservations">
+                                    <span>Reservations</span>
+                                </div>
+                                <div class="place__amenities">												
+                                    <img src="{{ asset('assets/images/icons/amenities/card.svg') }}" alt="Credit cards">
+                                    <span>Credit cards</span>
+                                </div>
+                                <div class="place__amenities">									
+                                    <img src="{{ asset('assets/images/icons/amenities/smk.svg') }}" alt="Non smoking">
+                                    <span>Non smoking</span>
+                                </div>
+                                <a href="#book-now" title="More" class="hightlight-count open-popup">+(4)</a>
+                                
+                                <div class="popup-wrap" id="book-now">
+                                    <div class="popup-bg popupbg-close"></div>
+                                    <div class="popup-middle">
+                                        <a title="Close" href="#" class="popup-close">
+                                            <i class="la la-times"></i>
+                                        </a><!-- .popup-close -->
+                                        <h3>Amenities</h3>
+                                        <div class="popup-content">
+                                            <div class="hightlight-flex">
+                                                {% if listing.getWifi %}
+                                                <div class="place__amenities">								
+                                                    <img src="{{ asset('assets/images/icons/amenities/wf.svg') }}" alt="Free wifi">
+                                                    <span>Wifi</span>
+                                                </div>
+                                                {% endif %}
+                                                <div class="place__amenities">								
+                                                    <img src="{{ asset('assets/images/icons/amenities/cld.svg') }}" alt="Reservations">
+                                                    <span>Reservations</span>
+                                                </div>
+                                                <div class="place__amenities">								
+                                                    <img src="{{ asset('assets/images/icons/amenities/card.svg') }}" alt="Credit cards">
+                                                    <span>Credit cards</span>
+                                                </div>
+                                                <div class="place__amenities">								
+                                                    <img src="{{ asset('assets/images/icons/amenities/smk.svg') }}" alt="Non smoking">
+                                                    <span>Non smoking</span>
+                                                </div>
+                                                <div class="place__amenities">								
+                                                    <img src="{{ asset('assets/images/icons/amenities/air.svg') }}" alt="Air conditioner">
+                                                    <span>Air conditioner</span>
+                                                </div>
+                                                <div class="place__amenities">							
+                                                    <img src="{{ asset('assets/images/icons/amenities/car.svg') }}" alt="Car parking">
+                                                    <span>Car parking</span>
+                                                </div>
+                                                <div class="place__amenities">									
+                                                    <img src="{{ asset('assets/images/icons/amenities/ct.svg') }}" alt="Cocktails">
+                                                    <span>Cocktails</span>
+                                                </div>
+                                            </div><!-- .hightlight-flex -->
+                                        </div><!-- .popup-content -->
+                                    </div><!-- .popup-middle -->
+                                </div><!-- .popup-wrap -->
+                            </div>
+                        </div><!-- .place__box -->
+                        <div class="place__box place__box-overview">
+                            <h3>Overview</h3>
+                            <div class="place__desc">{{ listing.getDescription }}</div><!-- .place__desc -->
+                            <a href="#" class="show-more" title="Show More">Show more</a>
+                        </div>
+                        <div class="place__box place__box-map">
+                            <h3 class="place__title--additional">
+                                Location & Maps
+                            </h3>
+                            <div class="maps">
+                                <div id="map"></div>
+                            </div>
+                            <div class="address">
+                                <i class="la la-map-marker"></i>
+                                {{ listing.getGooglemapAddress }}
+                                <a href="#" title="Direction">(Direction)</a>
+                            </div>
+                        </div><!-- .place__box -->
+                        <div class="place__box">
+                            <h3>Contact Info</h3>
+                            <ul class="place__contact">
+                                {% if listing.getPhone %}
+                                <li>									
+                                    <i class="la la-phone"></i>
+                                    <a title="{{ listing.getPhone }}" href="tel:{{listing.getPhone}}">{{ listing.getPhone }}</a>
+                                </li>
+                                {% endif %}
+                                {% if listing.getWebsite %}
+                                <li>											
+                                    <i class="la la-globe"></i>
+                                    <a title="{{ listing.getWebsite }}" href="{{ listing.getWebsite }}">{{ listing.getWebsite }}</a>
+                                </li>
+                                {% endif %}
+                                {% if listing.getFacebook %}
+                                <li>
+                                    <i class="la la-facebook-f"></i>
+                                    <a title="{{ listing.getFacebookUrl }}" href="{{ listing.getFacebookUrl }}">{{ listing.getFacebookUrl }}</a>
+                                </li>
+                                {% endif %}
+                                {% if listing.getInstagram %}
+                                <li>
+                                    <i class="la la-instagram"></i>
+                                    <a title="{{ listing.getInstagramUrl }}" href="{{ listing.getInstagramUrl }}">{{ listing.getInstagramUrl }}</a>
+                                </li>
+                                {% endif %}
+                                {% if listing.getYoutube %}
+                                <li>
+                                    <i class="la la-instagram"></i>
+                                    <a title="{{ listing.getYoutubeUrl }}" href="{{ listing.getYoutubeUrl }}">{{ listing.getYoutubeUrl }}</a>
+                                </li>
+                                {% endif %}
+                                {% if listing.Twitter %}
+                                <li>
+                                    <i class="la la-instagram"></i>
+                                    <a title="{{ listing.TwitterUrl }}" href="{{ listing.TwitterUrl }}">{{ listing.TwitterUrl }}</a>
+                                </li>
+                                {% endif %}
+                                {% if listing.Google %}
+                                <li>
+                                    <i class="la la-instagram"></i>
+                                    <a title="{{ listing.GoogleUrl }}" href="{{ listing.GoogleUrl }}">{{ listing.GoogleUrl }}</a>
+                                </li>
+                                {% endif %}
+                                {% if listing.getPinterest %}
+                                <li>
+                                    <i class="la la-instagram"></i>
+                                    <a title="{{ listing.getPinterestUrl }}" href="{{ listing.getPinterestUrl }}">{{ listing.getPinterestUrl }}</a>
+                                </li>
+                                {% endif %}
+                                {% if listing.getSnapchat %}
+                                <li>
+                                    <i class="la la-instagram"></i>
+                                    <a title="{{ listing.getSnapchatUrl }}" href="{{ listing.getSnapchatUrl }}">{{ listing.getSnapchatUrl }}</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div><!-- .place__box -->
+                        <div class="place__box place__box-open">
+                            <h3 class="place__title--additional">
+                                Opening Hours
+                            </h3>
+                            <table class="open-table">
+                                <tbody>
+                                    <tr>
+                                        <td class="day">Monday</td>
+                                        {% if listing.getMonday %}
+                                        <td class="time">{{ listing.getMondayStartTime }}:00 - {{ listing.getMondayEndTime }}:00 </td>
+                                        {% else %}
+                                        <td class="time">Close</td>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        <td class="day">Tuesday</td>
+                                        {% if listing.getTuesday %}
+                                        <td class="time">{{ listing.getTuesdayStartTime }}:00 - {{ listing.getTuesdayEndTime }}:00 </td>
+                                        {% else %}
+                                        <td class="time">Close</td>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        <td class="day">Wednesday</td>
+                                        {% if listing.getWednesday %}
+                                        <td class="time">{{ listing.getWednesdayStartTime }}:00 - {{ listing.getWednesdayEndTime }}:00 </td>
+                                        {% else %}
+                                        <td class="time">Close</td>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        <td class="day">Thursday</td>
+                                        {% if listing.getThursday %}
+                                        <td class="time">{{ listing.getThursdayStartTime }}:00 - {{ listing.getThursdayEndTime }}:00 </td>
+                                        {% else %}
+                                        <td class="time">Close</td>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        <td class="day">Friday</td>
+                                        {% if listing.getFriday %}
+                                        <td class="time">{{ listing.getFridayStartTime }}:00 - {{ listing.getFridayEndTime }}:00 </td>
+                                        {% else %}
+                                        <td class="time">Close</td>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        <td class="day">Saturday</td>
+                                        {% if listing.getSaturday %}
+                                        <td class="time">{{ listing.getSaturdayStartTime }}:00 - {{ listing.getSaturdayEndTime }}:00 </td>
+                                        {% else %}
+                                        <td class="time">Close</td>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        <td class="day">Sunday</td>
+                                        {% if listing.getSunday %}
+                                        <td class="time">{{ listing.getSundayStartTime }}:00 - {{ listing.getSundayEndTime }}:00 </td>
+                                        {% else %}
+                                        <td class="time">Close</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="place__box place__box--reviews">
+                            <h3 class="place__title--reviews">
+                                Review ({{ reviews|length }})
+                                <span class="place__reviews__number">
+                                    {{ review_rate }}									
+                                    <i class="la la-star"></i>
+                                </span>
+                            </h3>
+                            <ul class="place__comments">
+                                {% for review in reviews %}
+                                <li>
+                                    <div class="place__author">
+                                        <div class="place__author__avatar">
+                                            <a title="{{ review.getUserName }}" href="#"><img src="{{ asset(review.getUserAvatar) }}" alt=""></a>
+                                        </div>
+                                        <div class="place__author__info">
+                                            <a title="{{ review.getUserName }}" href="#">{{ review.getUserName }}</a>
+                                            <div class="place__author__star">
+                                                <i class="la la-star"></i>
+                                                <i class="la la-star"></i>
+                                                <i class="la la-star"></i>
+                                                <i class="la la-star"></i>
+                                                <i class="la la-star"></i>
+                                                <span style="width: {{ 100 * review.getRate / 5 }}%;">
+                                                    <i class="la la-star"></i>
+                                                    <i class="la la-star"></i>
+                                                    <i class="la la-star"></i>
+                                                    <i class="la la-star"></i>
+                                                    <i class="la la-star"></i>
+                                                </span>
+                                            </div>
+                                            <span class="time">{{ review.getDate.format('M d Y') }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="place__comments__content">
+                                        <p>{{ review.getDescription }}</p>
+                                    </div>
+                                    <a title="Reply" href="#" class="place__comments__reply">							
+                                        <i class="la la-comment-dots"></i>
+                                        Reply
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            <div class="review-form">
+                                <h3>Write a review</h3>
+                                <form action="{{ path('review_store') }}" method="POST" enctype="multipart/form-data">
+                                    <div style="height: 65px;">
+                                        <div class="rate">
+                                            <input type="radio" id="star5" name="rate" value="5" />
+                                            <label for="star5" title="text">5 stars</label>
+                                            <input type="radio" id="star4" name="rate" value="4" />
+                                            <label for="star4" title="text">4 stars</label>
+                                            <input type="radio" id="star3" name="rate" value="3" />
+                                            <label for="star3" title="text">3 stars</label>
+                                            <input type="radio" id="star2" name="rate" value="2" />
+                                            <label for="star2" title="text">2 stars</label>
+                                            <input type="radio" id="star1" name="rate" value="1" />
+                                            <label for="star1" title="text">1 star</label>
+                                        </div>
+                                    </div>
+                                    <div style="padding-bottom: 15px;">
+                                        {% for suggestion in suggestions %}
+                                        <span class="suggestion" onclick="addSuggestion('{{ suggestion.getName }}')">{{ suggestion.getName }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="field-textarea">
+                                        {% if (old is defined) and ('description' in old|keys) %}
+                                        <textarea id="review-description" name="description" placeholder="Write a review">{{ old.description }}</textarea>
+                                        {% else %}
+                                        <textarea id="review-description" name="description" placeholder="Write a review"></textarea>
+                                        {% endif %}
+                                        <input type="hidden" name="listing_id" value="{{ listing.getId }}">
+                                    </div>
+                                    {% if (errors is defined) and ('description' in errors|keys) %}
+                                    <span style="color: red;">{{ errors.description }}</span>
+                                    {% endif %}
+                                    <div class="field-group">
+                                        <label for="user_name">Name</label>
+                                        {% if (old is defined) and ('user_name' in old|keys) %}
+                                        <input type="text" id="user_name" name="user_name" style="border-color: #eeeeee; width: 100%;" value="{{ old.user_name }}">
+                                        {% else %}
+                                        <input type="text" id="user_name" name="user_name" style="border-color: #eeeeee; width: 100%;">
+                                        {% endif %}
+                                        {% if (errors is defined) and ('user_name' in errors|keys) %}
+                                        <span style="color: red;">{{ errors.user_name }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="field-group field-file">
+                                        <label for="user_avatar">Avatar image</label>
+                                        <label for="user_avatar" class="preview" style="width: 100px; height: 100px;">
+                                            <input type="file" id="user_avatar" name="user_avatar" class="upload-file" data-max-size="1024000">
+                                            <img class="img_preview" src="{{ asset('assets/images/no-image.png') }}" alt="" />
+                                            <i class="la la-cloud-upload-alt"></i>
+                                        </label>
+                                        <div class="field-note">Maximum file size: 1 MB.</div>
+                                    </div>
+                                    <div class="field-submit">
+                                        <input type="submit" class="btn" value="Submit" name="submit">
+                                    </div>
+                                </form>
+                            </div>
+                        </div><!-- .place__box -->
+                    </div><!-- .place__left -->
+                </div>
+                <div class="col-lg-4">
+                    <div class="sidebar sidebar--shop sidebar--border">
+                        <div class="widget-reservation-mini">
+                            <h3>Make a reservation</h3>
+                            <a href="#" class="open-wg btn">Request</a>
+                        </div>
+                        <aside class="widget widget-shadow widget-reservation">
+                            <h3>Make a reservation</h3>
+                            <form action="{{ path('booking_store') }}" method="POST" class="form-underline">
+                                <div class="field-select has-sub field-guest">
+                                    <span class="sl-icon"><i class="la la-user-friends"></i></span>
+                                    <input type="text" placeholder="Guest" readonly>
+                                    <i class="la la-angle-down"></i>
+                                    <div class="field-sub">
+                                        <ul>
+                                            <li>
+                                                <span>Adults</span>
+                                                <div class="shop-details__quantity">
+                                                    <span class="minus">		
+                                                        <i class="la la-minus"></i>
+                                                    </span>
+                                                    <input type="number" name="adult_number" value="0" class="qty number_adults">
+                                                    <span class="plus">											
+                                                        <i class="la la-plus"></i>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <span>Childrens</span>
+                                                <div class="shop-details__quantity">
+                                                    <span class="minus">		
+                                                        <i class="la la-minus"></i>
+                                                    </span>
+                                                    <input type="number" name="children_number" value="0" class="qty number_childrens">
+                                                    <span class="plus">											
+                                                        <i class="la la-plus"></i>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="field-select field-date">
+                                    <span class="sl-icon"><i class="la la-calendar-alt"></i></span>
+                                    {% if (old is defined) and ('date' in old|keys) %}
+                                    <input type="text" placeholder="Date" class="datepicker" name="date" value="{{ old.date }}">
+                                    {% else %}
+                                    <input type="text" placeholder="Date" class="datepicker" name="date">
+                                    {% endif %}
+                                    {% if (errors is defined) and ('date' in errors|keys) %}
+                                    <span style="color: red;">{{ errors.date }}</span>
+                                    {% endif %}
+                                    <i class="la la-angle-down"></i>
+                                </div>
+                                <div class="field-select has-sub field-time">
+                                    <span class="sl-icon"><i class="la la-clock"></i></span>
+                                    {% if (old is defined) and ('time' in old|keys) %}
+                                    <input type="text" placeholder="Time" name="time" value="{{ old.time }}">
+                                    {% else %}
+                                    <input type="text" placeholder="Time" name="time">
+                                    {% endif %}
+                                    {% if (errors is defined) and ('time' in errors|keys) %}
+                                    <span style="color: red;">{{ errors.time }}</span>
+                                    {% endif %}
+                                    <i class="la la-angle-down"></i>
+                                    <div class="field-sub">
+                                        <ul>
+                                            <li><a href="#">12:00 AM</a></li>
+                                            <li><a href="#">12:30 AM</a></li>
+                                            <li><a href="#">1:00 AM</a></li>
+                                            <li><a href="#">1:30 AM</a></li>
+                                            <li><a href="#">2:00 AM</a></li>
+                                            <li><a href="#">2:30 AM</a></li>
+                                            <li><a href="#">3:00 AM</a></li>
+                                            <li><a href="#">3:30 AM</a></li>
+                                            <li><a href="#">4:00 AM</a></li>
+                                            <li><a href="#">4:30 AM</a></li>
+                                            <li><a href="#">5:00 AM</a></li>
+                                            <li><a href="#">5:30 AM</a></li>
+                                            <li><a href="#">6:00 AM</a></li>
+                                            <li><a href="#">6:30 AM</a></li>
+                                            <li><a href="#">7:00 AM</a></li>
+                                            <li><a href="#">7:30 AM</a></li>
+                                            <li><a href="#">8:00 AM</a></li>
+                                            <li><a href="#">8:30 AM</a></li>
+                                            <li><a href="#">9:00 AM</a></li>
+                                            <li><a href="#">9:30 AM</a></li>
+                                            <li><a href="#">10:00 AM</a></li>
+                                            <li><a href="#">10:30 AM</a></li>
+                                            <li><a href="#">11:00 AM</a></li>
+                                            <li><a href="#">11:30 AM</a></li>
+                                            <li><a href="#">12:00 PM</a></li>
+                                            <li><a href="#">12:30 PM</a></li>
+                                            <li><a href="#">1:00 PM</a></li>
+                                            <li><a href="#">1:30 PM</a></li>
+                                            <li><a href="#">2:00 PM</a></li>
+                                            <li><a href="#">2:30 PM</a></li>
+                                            <li><a href="#">3:00 PM</a></li>
+                                            <li><a href="#">3:30 PM</a></li>
+                                            <li><a href="#">4:00 PM</a></li>
+                                            <li><a href="#">4:30 PM</a></li>
+                                            <li><a href="#">5:00 PM</a></li>
+                                            <li><a href="#">5:30 PM</a></li>
+                                            <li><a href="#">6:00 PM</a></li>
+                                            <li><a href="#">6:30 PM</a></li>
+                                            <li><a href="#">7:00 PM</a></li>
+                                            <li><a href="#">7:30 PM</a></li>
+                                            <li><a href="#">8:00 PM</a></li>
+                                            <li><a href="#">8:30 PM</a></li>
+                                            <li><a href="#">9:00 PM</a></li>
+                                            <li><a href="#">9:30 PM</a></li>
+                                            <li><a href="#">10:00 PM</a></li>
+                                            <li><a href="#">10:30 PM</a></li>
+                                            <li><a href="#">11:00 PM</a></li>
+                                            <li><a href="#">11:30 PM</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="field-group field-input">
+                                    <input type="text" id="phone_number" placeholder="Phone number" name="phone_number">
+                                </div>
+                                <input type="hidden" name="listing_id" value="{{ listing.getId }}">
+                                <input type="submit" name="submit" value="Request a book">
+                                <p class="note">You won't be charged yet</p>
+                            </form>
+                        </aside><!-- .widget-reservation -->
+                    </div><!-- .sidebar -->
+                </div>
+            </div>
+        </div>
+    </div><!-- .place -->
+    <div class="similar-places">
+        <div class="container">
+            <h2 class="similar-places__title title">Similar places</h2>
+            <div class="similar-places__content">
+                <div class="row">
+                    {% for similar_listing in similar_listings %}
+                    <div class="col-lg-3 col-md-6">
+                        <div class="place-item layout-02 place-hover">
+                            <div class="place-inner">
+                                <div class="place-thumb">
+                                    <a class="entry-thumb" href="{{ path('listing_detail', {'id': similar_listing.getId}) }}"><img src="{{ asset(similar_listing.getCoverImage) }}" alt=""></a>
+                                    <a href="#" class="golo-add-to-wishlist btn-add-to-wishlist " data-place-id="185">
+                                        <span class="icon-heart">
+                                            <i class="la la-bookmark large"></i>
+                                        </span>
+                                    </a>
+                                    <a class="entry-category purple" href="#">
+                                        <i class="las la-spa"></i><span>{{ similar_listing.category.getName }}</span>
+                                    </a>
+                                    <a href="#" class="author" title="Author"><img src="{{ asset(similar_listing.user.getImage) }}" alt="Author"></a>
+                                </div>       
+                                <div class="entry-detail">
+                                    <div class="entry-head">
+                                        <div class="place-type list-item">
+                                            <span>{{ similar_listing.category.getName }}</span>
+                                        </div>
+                                        <div class="place-city">
+                                            <a href="#">{{ similar_listing.city.getName }}</a>
+                                        </div>
+                                    </div>
+                                    <h3 class="place-title"><a href="{{ path('listing_detail', {'id': similar_listing.getId}) }}">{{ similar_listing.getName }}</a></h3>
+                                    <div class="open-now"><i class="las la-door-open"></i>Open now</div>
+                                    <div class="entry-bottom">
+                                        <div class="place-preview">
+                                            <div class="place-rating">
+                                                <span>{{ similar_listing.review_rate }}</span>
+                                                <i class="la la-star"></i>
+                                            </div>
+                                            <span class="count-reviews">({{ similar_listing.review_count }} Reviews)</span>
+                                        </div>
+                                        <div class="place-price">
+                                            <span>{{ similar_listing.getPriceRange }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div><!-- .similar-places -->
+</main><!-- .site-main -->
+{% endblock %}
+{% block javascripts %}
+<script>
+    function addSuggestion(suggestion) {
+        var cur_description = $("#review-description").text();
+        $("#review-description").text(cur_description + ' ' + suggestion);
+    }
+</script>
+<script>
+// When the window has finished loading create our google map below
+// google.maps.event.addDomListener(window, 'load', initMap);
+
+function initMap() {
+    // Basic options for a simple Google Map
+    // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
+    var mapOptions = {
+        // How zoomed in you want the map to start at (always required)
+        zoom: 15,
+        scrollwheel: false,
+        draggable: false,
+        mapTypeControl: false,
+        navigationControl: false,
+        streetViewControl: false,
+        // The latitude and longitude to center the map (always required)
+        center: new google.maps.LatLng(40.450748, -74.436050), // Milltown
+
+        // How you would like to style the map.
+        // This is where you would paste any style found on Snazzy Maps.
+        styles: [
+            {
+                "featureType": "all",
+                "elementType": "labels.text.fill",
+                "stylers": [
+                    {
+                        "saturation": 36
+                    },
+                    {
+                        "color": "#444444"
+                    },
+                    {
+                        "lightness": 40
+                    }
+                ]
+            },
+            {
+                "featureType": "all",
+                "elementType": "labels.text.stroke",
+                "stylers": [
+                    {
+                        "visibility": "on"
+                    },
+                    {
+                        "color": "#ffffff"
+                    },
+                    {
+                        "lightness": 16
+                    }
+                ]
+            },
+            {
+                "featureType": "all",
+                "elementType": "labels.icon",
+                "stylers": [
+                    {
+                        "visibility": "off"
+                    }
+                ]
+            },
+            {
+                "featureType": "administrative",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "lightness": 20
+                    },
+                    {
+                        "color": "#ffffff"
+                    }
+                ]
+            },
+            {
+                "featureType": "administrative",
+                "elementType": "geometry.stroke",
+                "stylers": [
+                    {
+                        "color": "#ffffff"
+                    },
+                    {
+                        "lightness": 17
+                    },
+                    {
+                        "weight": 1.2
+                    }
+                ]
+            },
+            {
+                "featureType": "landscape",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "color": "#ffffff"
+                    },
+                    {
+                        "lightness": 20
+                    }
+                ]
+            },
+            {
+                "featureType": "poi",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "color": "#ffffff"
+                    },
+                    {
+                        "lightness": 21
+                    }
+                ]
+            },
+            {
+                "featureType": "poi",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#F4F3F3"
+                    }
+                ]
+            },
+            {
+                "featureType": "road",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "visibility": "on"
+                    },
+                    {
+                        "color": "#ffffff"
+                    }
+                ]
+            },
+            {
+                "featureType": "road.highway",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#d8d8d8"
+                    },
+                    {
+                        "lightness": 17
+                    }
+                ]
+            },
+            {
+                "featureType": "road.highway",
+                "elementType": "geometry.stroke",
+                "stylers": [
+                    {
+                        "color": "#ffffff"
+                    },
+                    {
+                        "lightness": 29
+                    },
+                    {
+                        "weight": 0.2
+                    }
+                ]
+            },
+            {
+                "featureType": "road.arterial",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "color": "#F4F3F3"
+                    },
+                    {
+                        "lightness": 18
+                    }
+                ]
+            },
+            {
+                "featureType": "road.local",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "color": "#F4F3F3"
+                    },
+                    {
+                        "lightness": 16
+                    }
+                ]
+            },
+            {
+                "featureType": "road.local",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#F4F3F3"
+                    }
+                ]
+            },
+            {
+                "featureType": "road.local",
+                "elementType": "labels.text.fill",
+                "stylers": [
+                    {
+                        "color": "#B9B9B9"
+                    },
+                    {
+                        "weight": "1.19"
+                    }
+                ]
+            },
+            {
+                "featureType": "road.local",
+                "elementType": "labels.text.stroke",
+                "stylers": [
+                    {
+                        "color": "#ffffff"
+                    },
+                    {
+                        "weight": "0"
+                    }
+                ]
+            },
+            {
+                "featureType": "transit",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "color": "#B7B7B7"
+                    },
+                    {
+                        "lightness": 10
+                    }
+                ]
+            },
+            {
+                "featureType": "water",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "color": "#E9DBD2"
+                    },
+                    {
+                        "lightness": 17
+                    }
+                ]
+            },
+            {
+                "featureType": "water",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#E9DBD2"
+                    }
+                ]
+            },
+            {
+                "featureType": "water",
+                "elementType": "labels.text.fill",
+                "stylers": [
+                    {
+                        "color": "#cacaca"
+                    }
+                ]
+            }
+        ]
+    };
+    // Get the HTML DOM element that will contain your map
+    // We are using a div with id="map" seen below in the <body>
+    var mapElement = document.getElementById('map');
+
+    // Create the Google Map using our element and options defined above
+    var map = new google.maps.Map(mapElement, mapOptions);
+
+    var laG = {{listing.getLaG}};
+    var laI = {{listing.getLaI}};
+    var raG = {{listing.getRaG}};
+    var raI = {{listing.getRaI}};
+    var lat = {{listing.getLat}};
+    var lng = {{listing.getLng}};
+    // var laG = 151.1116135564585;
+    // var laI = 151.1420754006468;
+    // var raG = -33.87419013788703;
+    // var raI = -33.85860546913968;
+    // var lat = -33.8692538;
+    // var lng = 151.1295659;
+    var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(lat, lng),
+        map: map,
+        title: 'Snazzy!'
+    });
+    var defaultBounds = new google.maps.LatLngBounds(
+        new google.maps.LatLng(raG, laG),
+        new google.maps.LatLng(raI, laI));
+        map.fitBounds(defaultBounds);
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-2mhVoLX7oIOgRQ-6bxlJt4TF5k0xhWc&callback=initMap" async defer></script>
+{% endblock %}

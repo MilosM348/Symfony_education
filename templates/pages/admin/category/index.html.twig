@@ -1,0 +1,143 @@
+{% extends 'layout/admin/app.html.twig' %}
+
+{% block title %}
+<title>Admin Categories</title>
+{% endblock %}
+
+{% block body %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Categories</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
+            <li class="breadcrumb-item active">Categories</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Categories</h3>
+              <a href="{{ path('admin_category_create') }}" class="btn btn-primary" style="float:right">New Category</a>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <form action="{{ path('admin_category_search') }}" method="POST">
+                <div class="row">
+                  <div class="form-group col-md-3">
+                    <select class="custom-select rounded-0" name="city_id">
+                      <option value="0">All cities</option>
+                      {% for city in cities %}
+                        {% if (filter is defined) and ('city_id' in filter|keys) and (filter.city_id == city.getId) %}
+                        <option value="{{ city.getId }}" selected>{{ city.getName }}</option>
+                        {% else %}
+                        <option value="{{ city.getId }}">{{ city.getName }}</option>
+                        {% endif %}
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <select class="custom-select rounded-0" name="type_id">
+                      <option value="0">All category types</option>
+                      {% for type in types %}
+                        {% if (filter is defined) and ('type_id' in filter|keys) and (filter.type_id == type.getId) %}
+                        <option value="{{ type.getId }}" selected>{{ type.getName }}</option>
+                        {% else %}
+                        <option value="{{ type.getId }}">{{ type.getName }}</option>
+                        {% endif %}
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <select class="custom-select rounded-0" name="active_type_id">
+                      <option value="0">All active types</option>
+                      {% for active_type in active_types %}
+                        {% if (filter is defined) and ('active_type_id' in filter|keys) and (filter.active_type_id == active_type.getId) %}
+                        <option value="{{ active_type.getId }}" selected>{{ active_type.getName }}</option>
+                        {% else %}
+                        <option value="{{ active_type.getId }}">{{ active_type.getName }}</option>
+                        {% endif %}
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div style="height: 40px;">
+                  <button class="btn btn-primary" style="float:right">
+                    Search
+                  </button>
+                </div>
+              </form>
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>City</th>
+                    <th>Type</th>
+                    <th>ActiveType</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for category in categories %}
+                <tr>
+                  <td data-title="ID">{{ category.getId }}</td>
+                  <td data-title="City">{{ category.city }}</td>
+                  <td data-title="Type"><b>{{ category.type }}</b></td>
+                  <td data-title="ActiveType">{{ category.activetype }}</td>
+                  <td data-title="" class="place-action">
+                    <a href="{{ path('admin_category_edit', {'id': category.getId}) }}" class="edit mr-3" title="Edit"><i class="las la-edit"></i></a>
+                    <a href="{{ path('admin_category_delete', {'id': category.getId}) }}" class="" title=""><i class="la la-trash-alt" style="color: red;"></i></a>
+                  </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<!-- Page specific script -->
+<script>
+  $(function () {
+    // $("#example1").DataTable({
+    //   "responsive": true, "lengthChange": false, "autoWidth": false,
+    //   "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    // }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+{% endblock %}
