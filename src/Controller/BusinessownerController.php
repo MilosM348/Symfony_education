@@ -28,44 +28,6 @@ class BusinessownerController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/inscription/{id}", name="businessowner_new", methods={"GET","POST"})
-     */
-    public function new(Request $request,$id): Response
-    {
-        $user = $this->getDoctrine()->getRepository(User::class)->find($id);
-        $existe = $user->getBusinessowner();
-        $businessowner = new Businessowner();
-        if (is_null($existe)) {
-
-            $form = $this->createForm(BusinessownerType::class, $businessowner);
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $user->setType('businessowner');
-                $businessowner->setUseraccount($user);
-                $businessowner->setEtat(false);
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($businessowner);
-                $entityManager->flush();
-
-                return $this->render('pages/businessowner/message.html.twig', [
-                    'message' => "votre demande est en cours de traitement",
-                ]);
-            }
-            return $this->render('pages/businessowner/new.html.twig', [
-                'form' => $form->createView(),
-            ]);
-        } else if ($existe->getEtat() == false) {
-            return $this->render('pages/businessowner/message.html.twig', [
-                'message' => "votre demande est en cours de traitement",
-            ]);
-        } else {
-            return $this->render('pages/businessowner/message.html.twig', [
-                'message' => "Vous pouvez maintenant creer votre annonce"
-            ]);
-        }
-    }
 
     /**
      * @Route("/{id}", name="businessowner_show", methods={"GET"})
