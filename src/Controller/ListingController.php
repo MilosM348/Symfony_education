@@ -17,6 +17,10 @@ use App\Entity\Setting;
 use App\Entity\Suggestion;
 use App\Entity\User;
 use App\Entity\City;
+use App\Entity\CategoryType;
+use App\Entity\ActiveType;
+use App\Entity\Wishlist;
+use App\Entity\Message;
 use \DateTime;
 
 class ListingController extends AbstractController
