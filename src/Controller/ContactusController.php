@@ -43,14 +43,6 @@ class ContactusController extends AbstractController
             'message' => $message,
             'listing_id' => $listing_id,
         ];
-        $constraints = new Assert\Collection([
-            'first_name' => [new Assert\NotBlank],
-            'last_name' => [new Assert\NotBlank],
-            'email' => [new Assert\NotBlank],
-            'phone_number' => [new Assert\NotBlank],
-            'message' => [new Assert\NotBlank],
-            'listing_id' => [new Assert\NotBlank],
-        ]);
         $violations = $validator->validate($input, $constraints);
         if (count($violations) > 0) {
             $accessor = PropertyAccess::createPropertyAccessor();
