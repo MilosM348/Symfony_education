@@ -35,7 +35,14 @@ class ContactusController extends AbstractController
         $phone_number = $request->request->get("phone_number");
         $message = $request->request->get("message");
         $listing_id = $request->request->get('listing_id');
-        
+        $input = [
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'email' => $email,
+            'phone_number' => $phone_number,
+            'message' => $message,
+            'listing_id' => $listing_id,
+        ];
         $constraints = new Assert\Collection([
             'first_name' => [new Assert\NotBlank],
             'last_name' => [new Assert\NotBlank],
