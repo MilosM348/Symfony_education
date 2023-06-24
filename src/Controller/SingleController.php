@@ -7,4 +7,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SingleController extends AbstractController
 {
+    /**
+     * @Route("/single", name="single")
+     */
+    public function index(): Response
+    {
+        return $this->render('pages/single/index.html.twig', [
+        ]);
+    }
 }
