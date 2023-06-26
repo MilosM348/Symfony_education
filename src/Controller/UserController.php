@@ -36,6 +36,22 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/user/profile", name="profile")
+     */
+    public function profile(Request $request): Response
+    {   
+        if(is_null($this->session->get('user'))){
+            return $this->redirectToRoute('connexion');
+        }
+        $user = $this->getDoctrine()->getRepository(User::class)->find($this->session->get('user')->getId());
+        return $this->render('pages/profile/index.html.twig', [
+            'page' => 'profile',
+            'subtitle' => 'Profile Setting',
+            'user' => $user
+        ]);
+    }
+
+    /**
      * @Route("/user/profile/password", name="profile_password")
      */
     public function update_password(Request $request, ValidatorInterface $validator): Response
