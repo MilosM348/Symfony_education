@@ -16,4 +16,12 @@ class TemplateController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/comingsoon", name="comingsoon")
+     */
+    public function comingsoon(): Response
+    {
+        return $this->render('pages/comingsoon/index.html.twig', [
+        ]);
+    }
 }
