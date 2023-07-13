@@ -20,14 +20,6 @@
                 <div class="col-lg-4">
                     <div class="sidebar">
                         <aside class="widget widget-category">
-                            <h3 class="widget-title">Categories</h3>
-                            <div class="widget-content">
-                                <ul>
-                                    {% for blogtype in blogtypes %}
-                                    <li><a href="#">{{blogtype.getName}} ({{ blogtype.blogs|length }})</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
                         </aside><!-- .widget-category -->
                         <aside class="widget widget-post">
                             <h3 class="widget-title">Top Article</h3>
