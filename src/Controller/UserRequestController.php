@@ -16,6 +16,11 @@ use \DateTime;
 
 class UserRequestController extends AbstractController
 {
+    protected $session;
+    public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
 
     private function isAuth() {
         if(is_null($this->session->get('user'))){
